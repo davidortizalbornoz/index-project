@@ -9,7 +9,7 @@ import { getFormattedDate } from '../utils/date.utils';
 import { QRService } from '../services/qr.service';
 
 @Component({
-  selector: 'app-virtual-card',
+  selector: 'app-register-card',
   standalone: true,
   imports: [
     CommonModule,
@@ -18,14 +18,18 @@ import { QRService } from '../services/qr.service';
     MatDividerModule,
     MatIconModule
   ],
-  templateUrl: './virtual-card.component.html',
-  styleUrl: './virtual-card.component.css'
+  templateUrl: './register-card.component.html',
+  styleUrl: './register-card.component.css'
 })
-export class VirtualCardComponent implements OnInit {
+export class RegisterCardComponent implements OnInit {
   @Input() cardData: any;
   @Input() cardType: 'persona' | 'mascota' = 'persona';
   qrCodeUrl: string = '';
   isLoadingQR: boolean = false;
+
+  // Propiedades para la imagen
+  profileImageUrl: string | null = null;
+  hasProfileImage: boolean = false;
 
   constructor(
     private router: Router,
@@ -63,9 +67,45 @@ export class VirtualCardComponent implements OnInit {
       this.router.navigate(['/']);
     } else {
       console.log('Datos de la tarjeta virtual:', this.cardData, 'Tipo:', this.cardType);
+      // Procesar imagen si existe
+      this.processProfileImage();
       // Generar QR si existe el campo qrCode
       this.generateQRCode();
     }
+  }
+
+  /**
+   * Procesa la imagen del perfil si existe en los datos
+   */
+  processProfileImage(): void {
+    if (!this.cardData) return;
+
+    // Buscar la imagen en cardData.image.imageBase64
+    const imageBase64 = this.cardData?.image?.imageBase64;
+
+    if (imageBase64) {
+      console.log('Imagen encontrada en cardData.image.imageBase64:', {
+        hasImage: true,
+        imageLength: imageBase64.length
+      });
+
+      // La imagen ya viene en formato data:image, usarla directamente
+      this.profileImageUrl = imageBase64;
+      this.hasProfileImage = true;
+    } else {
+      console.log('No se encontró imagen en cardData.image.imageBase64');
+      this.hasProfileImage = false;
+      this.profileImageUrl = null;
+    }
+  }
+
+  /**
+   * Maneja errores de carga de imagen
+   */
+  onImageError(event: any): void {
+    console.error('Error al cargar la imagen del perfil:', event);
+    this.hasProfileImage = false;
+    this.profileImageUrl = null;
   }
 
   /**

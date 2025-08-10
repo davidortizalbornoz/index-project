@@ -95,7 +95,9 @@
           <h3>Foto de la Mascota</h3>
           <div class="image-upload-container">
             <div class="image-preview" *ngIf="imagePreview">
-              <img [src]="imagePreview" alt="Preview" class="preview-image">
+              <div class="preview-image-container">
+                <img [src]="imagePreview" alt="Preview" class="preview-image">
+              </div>
               <button mat-icon-button class="remove-image-btn" (click)="removeImage()">
                 <mat-icon>close</mat-icon>
               </button>

@@ -143,12 +143,13 @@ export class IngresoMascotaComponent {
 
   async registrarMascota() {
     if (this.mascotaForm.invalid) {
-      this.mostrarMensaje('Por favor, complete los campos requeridos (Nombre, Especie y Raza)', 'error');
+      this.mostrarMensaje('Por favor, complete todos los campos requeridos (Nombre, Especie, Raza, Tutor y RUT)', 'error');
       this.marcarCamposInvalidos();
       return;
     }
-
     this.isLoading = true;
+
+    let base64Image: string | null = null;
 
     try {
       let requestData: any;
@@ -157,8 +158,8 @@ export class IngresoMascotaComponent {
         // Si hay imagen, convertir a base64 y enviar como JSON
         console.log('[IngresoMascotaComponent] Preparando envío con imagen en base64...');
 
-        // Convertir imagen a base64
-        const base64Image = await this.convertImageToBase64(this.selectedImage);
+        // Convertir imagen a base64 (solo una vez)
+        base64Image = await this.convertImageToBase64(this.selectedImage);
 
         requestData = {
           vcardType: 'mascota',
@@ -202,10 +203,28 @@ export class IngresoMascotaComponent {
         });
 
         this.mostrarMensaje('Mascota registrada exitosamente', 'success');
-        // Navegar al VirtualCardComponent con los datos
-        const cardData = response.body || this.mascotaForm.value;
-        console.log('Navegando a virtual-card con datos:', cardData);
-        this.router.navigate(['/virtual-card'], {
+
+        // Preparar cardData con la imagen base64 si existe
+        let cardData = response.body || this.mascotaForm.value;
+
+        // Si hay imagen seleccionada, agregar la imagen base64 al objeto response
+        if (this.selectedImage && base64Image) {
+          // Asegurar que existe el objeto image en cardData
+          if (!cardData.image) {
+            cardData.image = {};
+          }
+
+          // Agregar la imagen base64 al objeto image (mantener estructura original)
+          cardData.image.imageBase64 = base64Image;
+
+          console.log('[IngresoMascotaComponent] Imagen base64 agregada a cardData:', {
+            hasImage: true,
+            imageLength: base64Image.length
+          });
+        }
+
+        console.log('Navegando a register-card con datos:', cardData);
+        this.router.navigate(['/register-card'], {
           state: {
             cardData: cardData,
             cardType: 'mascota'
@@ -218,7 +237,26 @@ export class IngresoMascotaComponent {
           sentData: this.mascotaForm.value
         });
         this.mostrarMensaje('Mascota registrada exitosamente', 'success');
-        this.limpiarFormulario();
+
+        let cardData = response?.body || this.mascotaForm.value;
+
+        // Si hay imagen seleccionada, agregar la imagen base64 al objeto response
+        if (this.selectedImage && base64Image) {
+          // Asegurar que existe el objeto image en cardData
+          if (!cardData.image) {
+            cardData.image = {};
+          }
+
+          // Agregar la imagen base64 al objeto image (mantener estructura original)
+          cardData.image.imageBase64 = base64Image;
+        }
+
+        this.router.navigate(['/register-card'], {
+          state: {
+            cardData: cardData,
+            cardType: 'mascota'
+          }
+        });
       }
     } catch (error) {
       console.error('Error al registrar mascota:', error);
@@ -231,9 +269,22 @@ export class IngresoMascotaComponent {
         } else if (error.status === 201) {
           // Si el error es 201, significa que fue exitoso
           this.mostrarMensaje('Mascota registrada exitosamente', 'success');
-          const cardData = this.mascotaForm.value;
-          console.log('Navegando a virtual-card desde catch con datos:', cardData);
-          this.router.navigate(['/virtual-card'], {
+
+          let cardData = this.mascotaForm.value;
+
+          // Si hay imagen seleccionada, agregar la imagen base64
+          if (this.selectedImage && base64Image) {
+            // Asegurar que existe el objeto image en cardData
+            if (!cardData.image) {
+              cardData.image = {};
+            }
+
+            // Agregar la imagen base64 al objeto image
+            cardData.image.imageBase64 = base64Image;
+          }
+
+          console.log('Navegando a register-card desde catch con datos:', cardData);
+          this.router.navigate(['/register-card'], {
             state: {
               cardData: cardData,
               cardType: 'mascota'

@@ -17,6 +17,16 @@
       <div class="card-body">
         <!-- Información principal -->
         <div class="main-info">
+          <!-- Imagen del perfil -->
+          <div class="profile-image-section" *ngIf="hasProfileImage">
+            <div class="profile-image-container">
+              <img [src]="profileImageUrl"
+                   alt="Foto de perfil"
+                   class="profile-image"
+                   (error)="onImageError($event)">
+            </div>
+          </div>
+
           <div class="name-section">
             <h2 class="full-name">
               <span *ngIf="cardType === 'persona'">
@@ -97,26 +107,26 @@
         <mat-divider></mat-divider>
 
         <div class="tutor-section" *ngIf="hasField('tutorNombre')">
-          <h3 class="tutor-title">Información del Tutor/Responsable</h3>
+          <h3 class="tutor-title">Tutor/Responsable</h3>
 
           <div class="tutor-details">
             <div class="detail-row">
-              <span class="detail-label">Nombre del Tutor:</span>
+              <span class="detail-label">Nombre:</span>
               <span class="detail-value">{{ getFieldValue('tutorNombre') }}</span>
             </div>
 
             <div class="detail-row" *ngIf="hasField('tutorRut')">
-              <span class="detail-label">RUT del Tutor:</span>
+              <span class="detail-label">RUT:</span>
               <span class="detail-value">{{ getFieldValue('tutorRut') }}</span>
             </div>
 
             <div class="detail-row" *ngIf="hasField('tutorTelefono')">
-              <span class="detail-label">Teléfono del Tutor:</span>
+              <span class="detail-label">Teléfono:</span>
               <span class="detail-value">{{ getFieldValue('tutorTelefono') }}</span>
             </div>
 
             <div class="detail-row" *ngIf="hasField('tutorDireccion')">
-              <span class="detail-label">Dirección del Tutor:</span>
+              <span class="detail-label">Dirección:</span>
               <span class="detail-value">{{ getFieldValue('tutorDireccion') }}</span>
             </div>
           </div>
