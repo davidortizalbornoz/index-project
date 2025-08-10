@@ -1,0 +1,163 @@
+<div class="ingreso-container">
+  <!-- Overlay del spinner -->
+  <div class="spinner-overlay" *ngIf="isLoading">
+    <div class="spinner-container">
+      <mat-spinner diameter="60"></mat-spinner>
+      <p class="spinner-text">Registrando persona...</p>
+    </div>
+  </div>
+
+  <mat-card class="ingreso-card">
+    <mat-card-header>
+      <mat-card-title>
+        {{ title }}
+      </mat-card-title>
+      <mat-card-subtitle>Complete la información personal</mat-card-subtitle>
+      <div class="sample-data-section">
+        <button mat-stroked-button
+                type="button"
+                (click)="cargarDatosEjemplo()"
+                class="sample-data-btn">
+          <mat-icon>auto_fix_high</mat-icon>
+          Cargar Datos de Ejemplo
+        </button>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="ingreso-form" [formGroup]="personaForm">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Nombre *</mat-label>
+            <input matInput formControlName="nombre" placeholder="Ej: Juan, María, etc.">
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-error *ngIf="nombre?.invalid && nombre?.touched">
+              <span *ngIf="nombre?.errors?.['required']">El nombre es requerido</span>
+              <span *ngIf="nombre?.errors?.['minlength']">El nombre debe tener al menos 2 caracteres</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Apellido *</mat-label>
+            <input matInput formControlName="apellido" placeholder="Ej: Pérez, García, etc.">
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <mat-error *ngIf="apellido?.invalid && apellido?.touched">
+              <span *ngIf="apellido?.errors?.['required']">El apellido es requerido</span>
+              <span *ngIf="apellido?.errors?.['minlength']">El apellido debe tener al menos 2 caracteres</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="ejemplo@correo.com">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-error *ngIf="email?.invalid && email?.touched">
+              <span *ngIf="email?.errors?.['email']">Ingrese un email válido</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Teléfono</mat-label>
+            <input matInput type="tel" formControlName="telefono" placeholder="+34 123 456 789">
+            <mat-icon matPrefix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <!-- Sección de Imagen -->
+        <div class="image-section">
+          <h3>Foto de la Persona</h3>
+          <div class="image-upload-container">
+            <div class="image-preview" *ngIf="imagePreview">
+              <img [src]="imagePreview" alt="Preview" class="preview-image">
+              <button mat-icon-button class="remove-image-btn" (click)="removeImage()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <div class="upload-area" *ngIf="!imagePreview">
+              <input type="file"
+                     #fileInput
+                     (change)="onImageSelected($event)"
+                     accept=".jpg,.jpeg,.png,.gif"
+                     style="display: none;">
+              <button mat-stroked-button
+                      type="button"
+                      (click)="fileInput.click()"
+                      class="upload-btn">
+                <mat-icon>photo_camera</mat-icon>
+                Seleccionar Imagen
+              </button>
+              <p class="upload-hint">Formatos: JPG, JPEG, PNG, GIF. Máximo 5MB</p>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Sección del Tutor/Responsable -->
+        <div class="tutor-section">
+          <h3>Información del Tutor/Responsable</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Nombre del Tutor *</mat-label>
+              <input matInput formControlName="tutorNombre" placeholder="Ej: Juan Pérez">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="tutorNombre?.invalid && tutorNombre?.touched">
+                <span *ngIf="tutorNombre?.errors?.['required']">El nombre del tutor es requerido</span>
+                <span *ngIf="tutorNombre?.errors?.['minlength']">El nombre debe tener al menos 2 caracteres</span>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>RUT del Tutor *</mat-label>
+              <input matInput formControlName="tutorRut" placeholder="12.345.678-5">
+              <mat-icon matPrefix>badge</mat-icon>
+              <mat-error *ngIf="tutorRut?.invalid && tutorRut?.dirty">
+                <span *ngIf="tutorRut?.errors?.['required']">El RUT es requerido</span>
+                <span *ngIf="tutorRut?.errors?.['invalidFormat']">Formato de RUT inválido</span>
+                <span *ngIf="tutorRut?.errors?.['invalidRut']">RUT inválido</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Teléfono del Tutor *</mat-label>
+              <input matInput type="tel" formControlName="tutorTelefono" placeholder="+56 9 1234 5678">
+              <mat-icon matPrefix>phone</mat-icon>
+              <mat-error *ngIf="tutorTelefono?.invalid && tutorTelefono?.touched">
+                <span *ngIf="tutorTelefono?.errors?.['required']">El teléfono es requerido</span>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Dirección del Tutor *</mat-label>
+              <input matInput formControlName="tutorDireccion" placeholder="Av. Principal 123, Ciudad">
+              <mat-icon matPrefix>location_on</mat-icon>
+              <mat-error *ngIf="tutorDireccion?.invalid && tutorDireccion?.touched">
+                <span *ngIf="tutorDireccion?.errors?.['required']">La dirección es requerida</span>
+                <span *ngIf="tutorDireccion?.errors?.['minlength']">La dirección debe tener al menos 10 caracteres</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions align="end">
+      <button mat-button routerLink="/" class="cancel-btn">
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" class="submit-btn"
+              (click)="registrarPersona()"
+              [disabled]="personaForm.invalid">
+        <mat-icon>person_add</mat-icon>
+        <span>Registrar Persona</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

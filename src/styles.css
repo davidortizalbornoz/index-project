@@ -1,1 +1,400 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* ===== SISTEMA DE ESTILOS ELEGANTE Y SOBRIO ===== */
+
+/* Variables CSS para consistencia */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #34495e;
+  --accent-color: #3498db;
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --text-light: #95a5a6;
+  --background-white: #ffffff;
+  --background-light: #f8f9fa;
+  --border-color: #e9ecef;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --border-radius: 8px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+}
+
+/* ===== ESTILOS BASE ===== */
+
+html, body {
+  height: 100%;
+  background-color: var(--background-white);
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ===== ESTILOS PARA COMPONENTES DE INGRESO ===== */
+
+/* Contenedor principal */
+.ingreso-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  background: var(--background-white);
+}
+
+/* Tarjeta principal */
+.ingreso-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  background: var(--background-white);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+/* Header de la tarjeta */
+.ingreso-card mat-card-header {
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md);
+  margin: 0;
+}
+
+.ingreso-card mat-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  margin: 0;
+  color: white;
+}
+
+.ingreso-card mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+}
+
+/* Contenido de la tarjeta */
+.ingreso-card mat-card-content {
+  padding: var(--spacing-lg);
+  background: var(--background-white);
+}
+
+/* Formulario */
+.ingreso-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Fila de formulario */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+/* Campo de formulario */
+.form-field {
+  width: 100%;
+}
+
+/* ===== ESTILOS DE ANGULAR MATERIAL ===== */
+
+/* Configuración de campos de formulario */
+mat-form-field {
+  width: 100%;
+  font-size: var(--font-size-sm);
+}
+
+/* Padding reducido para campos */
+.mat-mdc-form-field-infix {
+  padding: var(--spacing-sm) !important;
+  min-height: 36px !important;
+}
+
+/* Eliminar espacio de subscript */
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0 !important;
+}
+
+/* Eliminar padding lateral del wrapper */
+.mat-mdc-text-field-wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Reducir padding del wrapper */
+.mat-mdc-form-field-wrapper {
+  padding-bottom: 0.5em !important;
+}
+
+/* Outline de campos */
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  border-radius: var(--border-radius) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Outline con foco */
+.mat-mdc-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline-thick {
+  color: var(--primary-color) !important;
+}
+
+/* Labels */
+.mat-mdc-form-field-label {
+  color: var(--text-secondary) !important;
+  font-size: var(--font-size-sm) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-label {
+  color: var(--primary-color) !important;
+}
+
+/* Inputs */
+.mat-mdc-input-element {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Select */
+.mat-mdc-select {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Textarea */
+.mat-mdc-textarea-element {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-primary) !important;
+  min-height: 60px !important;
+  max-height: 120px !important;
+}
+
+/* ===== ESTILOS DE BOTONES ===== */
+
+/* Acciones de la tarjeta */
+mat-card-actions {
+  padding: var(--spacing-md);
+  background: var(--background-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--border-color);
+}
+
+/* Botón cancelar */
+.cancel-btn {
+  color: var(--text-secondary) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  transition: all 0.3s ease !important;
+  font-size: var(--font-size-sm) !important;
+  min-height: 32px !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--background-white) !important;
+}
+
+.cancel-btn:hover {
+  background-color: var(--background-light) !important;
+  color: var(--text-primary) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-light) !important;
+}
+
+/* Botón enviar */
+.submit-btn {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: var(--shadow-light) !important;
+  font-size: var(--font-size-sm) !important;
+  min-height: 32px !important;
+  border: none !important;
+}
+
+.submit-btn:hover {
+  background: var(--secondary-color) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-medium) !important;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .ingreso-container {
+    padding: var(--spacing-sm);
+  }
+
+  .ingreso-card mat-card-content {
+    padding: var(--spacing-md);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .ingreso-card mat-card-title {
+    font-size: var(--font-size-md);
+  }
+
+  mat-card-actions {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--spacing-sm);
+  }
+
+  mat-card-actions button {
+    width: 100%;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+
+.ingreso-card {
+  animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== ESTILOS MDC COMPATIBILIDAD ===== */
+
+/* Labels MDC */
+.mdc-floating-label {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-secondary) !important;
+}
+
+.mdc-text-field--focused .mdc-floating-label {
+  color: var(--primary-color) !important;
+}
+
+.mdc-text-field--label-floating .mdc-floating-label {
+  color: var(--primary-color) !important;
+}
+
+/* ===== ESTILOS PARA SNACKBARS ===== */
+
+.success-snackbar {
+  background: #4caf50 !important;
+  color: white !important;
+  font-size: var(--font-size-lg) !important;
+  font-weight: 500 !important;
+  padding: 16px 24px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+  margin: 16px !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+}
+
+.error-snackbar {
+  background: #f44336 !important;
+  color: white !important;
+  font-size: var(--font-size-lg) !important;
+  font-weight: 500 !important;
+  padding: 16px 24px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3) !important;
+  margin: 16px !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+}
+
+/* Estilos para el contenedor del snackbar */
+.mat-mdc-snack-bar-container {
+  margin: 16px !important;
+}
+
+/* Estilos para el botón de cerrar */
+.mat-mdc-snack-bar-action {
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: var(--font-size-md) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Animación de entrada */
+.success-snackbar,
+.error-snackbar {
+  animation: slideInRight 0.3s ease-out !important;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ===== ESTILOS PARA ICONOS ===== */
+
+/* Reducir tamaño de iconos en un 20% */
+mat-icon {
+  font-size: var(--font-size-lg) !important;
+  width: 16px !important;
+  height: 16px !important;
+  line-height: 16px !important;
+}
+
+/* Iconos en campos de formulario (matPrefix) */
+mat-form-field mat-icon {
+  font-size: var(--font-size-md) !important;
+  width: 14px !important;
+  height: 14px !important;
+  line-height: 14px !important;
+}
+
+/* Iconos en botones */
+button mat-icon {
+  font-size: var(--font-size-md) !important;
+  width: 14px !important;
+  height: 14px !important;
+  line-height: 14px !important;
+}
+
+/* Estilos para botones deshabilitados */
+.submit-btn:disabled {
+  background: var(--text-light) !important;
+  color: white !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.cancel-btn:disabled {
+  color: var(--text-light) !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
