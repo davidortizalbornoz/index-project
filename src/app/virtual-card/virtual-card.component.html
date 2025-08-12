@@ -1,0 +1,156 @@
+<div class="virtual-card-container">
+  <!-- Estado de carga -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner">
+      <mat-icon class="spinner-icon">refresh</mat-icon>
+      <span>Cargando tarjeta virtual...</span>
+    </div>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-message">
+      <mat-icon class="error-icon">error</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Tarjeta virtual -->
+  <mat-card *ngIf="cardData && !isLoading" class="virtual-card">
+    <!-- Header de la tarjeta -->
+    <div class="card-header" [style.background-color]="getColorTipo()">
+      <div class="header-content">
+        <div class="tipo-registro">
+          <span>{{ getTipoRegistro() }}</span>
+        </div>
+        <div class="card-id">
+          <span>ID: {{ cardData?.id || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido de la tarjeta -->
+    <mat-card-content class="card-content">
+      <div class="card-body">
+        <!-- Información principal -->
+        <div class="main-info">
+          <!-- Imagen del perfil -->
+          <div class="profile-image-section" *ngIf="hasProfileImage">
+            <div class="profile-image-container">
+              <img [src]="profileImageUrl"
+                   alt="Foto de perfil"
+                   class="profile-image"
+                   (error)="onImageError($event)">
+            </div>
+          </div>
+
+          <div class="name-section">
+            <h2 class="full-name">
+              <span *ngIf="cardType === 'persona'">
+                {{ getFieldValue('nombre') || 'N/A' }} {{ getFieldValue('apellido') || '' }}
+              </span>
+              <span *ngIf="cardType === 'mascota'">
+                {{ getFieldValue('nombre') || 'N/A' }}
+              </span>
+            </h2>
+            <div class="subtitle">
+              <span *ngIf="cardType === 'persona'">Persona Registrada</span>
+              <span *ngIf="cardType === 'mascota'">{{ getFieldValue('especie') || 'N/A' }} - {{ getFieldValue('raza') || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Detalles específicos -->
+        <div class="details-section">
+          <!-- Campos para Persona -->
+          <div class="detail-row" *ngIf="cardType === 'persona' && hasField('apellido')">
+            <span class="detail-label">Apellido:</span>
+            <span class="detail-value">{{ getFieldValue('apellido') }}</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'persona' && hasField('email')">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value">{{ getFieldValue('email') }}</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'persona' && hasField('telefono')">
+            <span class="detail-label">Teléfono:</span>
+            <span class="detail-value">{{ getFieldValue('telefono') }}</span>
+          </div>
+
+          <!-- Campos para Mascota -->
+          <div class="detail-row" *ngIf="cardType === 'mascota' && hasField('especie')">
+            <span class="detail-label">Especie:</span>
+            <span class="detail-value">{{ getFieldValue('especie') }}</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'mascota' && hasField('raza')">
+            <span class="detail-label">Raza:</span>
+            <span class="detail-value">{{ getFieldValue('raza') }}</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'mascota' && hasField('color')">
+            <span class="detail-label">Color:</span>
+            <span class="detail-value">{{ getFieldValue('color') }}</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'mascota' && hasField('edad')">
+            <span class="detail-label">Edad:</span>
+            <span class="detail-value">{{ getFieldValue('edad') }} años</span>
+          </div>
+
+          <div class="detail-row" *ngIf="cardType === 'mascota' && hasField('peso')">
+            <span class="detail-label">Peso:</span>
+            <span class="detail-value">{{ getFieldValue('peso') }} kg</span>
+          </div>
+
+          <!-- Campo común -->
+          <div class="detail-row" *ngIf="hasField('observaciones')">
+            <span class="detail-label">Observaciones:</span>
+            <span class="detail-value">{{ getFieldValue('observaciones') }}</span>
+          </div>
+        </div>
+
+        <!-- Información del Tutor/Responsable -->
+        <mat-divider></mat-divider>
+
+        <div class="tutor-section" *ngIf="hasField('tutorNombre')">
+          <h3 class="tutor-title">Tutor/Responsable</h3>
+
+          <div class="tutor-details">
+            <div class="detail-row">
+              <span class="detail-label">Nombre:</span>
+              <span class="detail-value">{{ getFieldValue('tutorNombre') }}</span>
+            </div>
+
+            <div class="detail-row" *ngIf="hasField('tutorRut')">
+              <span class="detail-label">RUT:</span>
+              <span class="detail-value">{{ getFieldValue('tutorRut') }}</span>
+            </div>
+
+            <div class="detail-row" *ngIf="hasField('tutorTelefono')">
+              <span class="detail-label">Teléfono:</span>
+              <span class="detail-value">{{ getFieldValue('tutorTelefono') }}</span>
+            </div>
+
+            <div class="detail-row" *ngIf="hasField('tutorDireccion')">
+              <span class="detail-label">Dirección:</span>
+              <span class="detail-value">{{ getFieldValue('tutorDireccion') }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información de registro -->
+        <mat-divider></mat-divider>
+
+        <div class="registration-info">
+          <div class="registration-date">
+            <span>Registrado el: {{ getFormattedDate() }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
